@@ -1,0 +1,6 @@
+Este es un archivo de texto de prueba.
+La intención de este archivo es probar las funcionalidades de VIM.
+
+No es sencillo escribir con este editor, pero creo que ya le voy agarrando la mano.
+
+La mejor manera de entender cómo funciona este editor es practicando muchas veces hasta que finalmente se entiende la manera de funcionar que tiene.
