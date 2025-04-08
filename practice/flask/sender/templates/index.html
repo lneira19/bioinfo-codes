@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sender</title>
+</head>
+<body>
+    Sending data to the receiver...
+</body>
+
+<script>
+    async function fetchAndExecuteFunction() {
+        try {
+            const response = await fetch('/sender');
+            const data = await response.json();
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    setInterval(fetchAndExecuteFunction, 5000);
+</script>
+
+</html>

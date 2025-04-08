@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            width: 80%;
+            height: 50%;
+            justify-content: space-between;
+        }
+        .half {
+            width:46%;
+            padding: 10px;
+            border: 1px solid black;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h1>Hello, {{ user.username }}!</h1>
+    
+    <div class="container">
+        
+        <div class="half" id="health-status">
+            <h2>Web health</h2>
+            <p id="status", style="text-align: center;">Cargando...</p>
+        </div>
+        
+        <div class="half" id="json-data">
+            <h2>Datos Recibidos</h2>
+            <ul id="data-list"></ul>
+        </div>
+    
+    </div>
+
+</body>
+
+<script>
+    async function fetchHealth() {
+        try {
+            // recupera la respuesta de /health definido en checker_server.py
+            const response = await fetch('/health');
+            // recupera el texto de la respuesta
+            const text = await response.text();
+            // actualiza el contenido del elemento con id "status"
+            // con el texto recuperado
+            const time = new Date().toLocaleTimeString();
+            document.getElementById('status').innerText = `${text} - ${time}`;
+        } catch (error) {
+            document.getElementById('status').innerText = 'Error al obtener el estado';
+        }
+    }
+
+    
+    async function fetchData() {
+        try {
+            const response = await fetch('/data');
+            const data = await response.json();
+            const dataListContainer = document.getElementById('data-list');
+            dataListContainer.innerHTML = data.map(item => `<li>${JSON.stringify(item)}</li>`).join('');
+        } catch (error) {
+            console.log('Error al recibir datos:', error);
+        }
+    }
+    
+
+    // Fetch health status and data on page load
+    window.onload = function() {
+        fetchHealth();
+        fetchData();
+    };
+    
+    setInterval(fetchHealth, 2000);
+    setInterval(fetchData, 2000);
+</script>
+
+</html>
