@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data send</title>
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            text-align: left;
+        }
+    </style>
+
+</head>
+<body>
+    
+    <h1>Envío de datos</h1>
+
+    <div>
+
+        <form id="sequenceForm">
+            
+            <div id="errorMessages" style="color: red; margin-bottom: 10px;"></div>
+
+            <h2>Secuencias de ADN</h2>
+
+            <label for="seq1">Secuencia 1:</label> <br>
+            <input type="text" id="seq1" name="seq1"> <br> <br>
+            <label for="seq2">Secuencia 2:</label> <br>
+            <input type="text" id="seq2" name="seq2"> <br> <br>
+            
+        
+            <h2>Imagen a enviar</h2>
+            
+            <input type="file" id="file" name="file"> <br> <br>
+
+            <input type="submit" value="Enviar data">
+
+        </form>
+
+    </div>
+
+</body>
+
+<script>
+    
+    document.getElementById("sequenceForm").addEventListener("submit", async(event) =>
+    {
+        event.preventDefault(); // Evitar el envío del formulario por defecto
+
+        const seq1 = document.getElementById("seq1").value;
+        const seq2 = document.getElementById("seq2").value;
+        const file = document.getElementById("file").files[0];
+        const errorDiv = document.getElementById("errorMessages");
+
+        // Limpiar mensajes de error previos
+        errorDiv.innerHTML = "";
+
+        // Array para almacenar mensajes de error
+        let errors = [];
+
+        // Validaciones
+        if (!seq1.trim()) {
+            errors.push("La secuencia 1 es obligatoria");
+        }
+        
+        if (!seq2.trim()) {
+            errors.push("La secuencia 2 es obligatoria");
+        }
+
+        if (!seq1.trim() && !seq2.trim()) {
+            errors.push("Ambas secuencias son obligatorias");
+        }
+        
+        if (!file) {
+            errors.push("Debe seleccionar un archivo");
+        }
+        
+        // Si hay errores, mostrarlos y detener el envío
+        if (errors.length > 0) {
+            errorDiv.innerHTML = errors.join('<br>');
+            return;
+        }
+
+        // Obtener los valores de las secuencias
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('seq1', seq1);
+        formData.append('seq2', seq2);
+
+        try {
+            const response = await fetch('/send', {
+            method: 'POST',
+            body: formData  // No establecer Content-Type, FormData lo hace automáticamente
+            });
+
+            const htmlContent = await response.text();
+            document.documentElement.innerHTML = htmlContent;
+
+        } catch (error) {
+            console.error('Error:', error);
+            errorDiv.innerHTML = "Error al enviar el formulario";
+        }
+    });
+
+</script>
+
+</html>

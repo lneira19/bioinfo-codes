@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados</title>
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            text-align: left;
+        }
+        h3 {
+            text-align: left;
+        }
+    </style>
+
+</head>
+<body>
+    
+    <h1>Secuencias a alinear</h1>
+
+    <div>
+        <h2>Secuencia 1:</h2>
+        <p> {{ datajson.seq1 }} </p>
+    </div>
+
+    <div>
+        <h2>Secuencia 2:</h2>
+        <p> {{ datajson.seq2 }} </p>
+    </div>
+
+    <h1>Resultado del alineamiento de secuencias</h1>
+
+    <div>
+        <h2>Consenso:</h2>
+        <p> {{ datajson.seqA }} </p>
+        <p> {{ datajson.seqB }} </p>
+    </div>
+
+    <div>
+        <h2>Score:</h2>
+        <p> {{ datajson.score }} </p>
+    </div>
+
+    <h1>Imágenes</h1>
+    <div>
+        <h3>Imagen subida:</h3>
+        <p> {{ datajson.filepath }} </p>
+        <img src="{{ datajson.filepath }}" alt="Imagen subida" style="width: 500px;">
+    </div>
+
+
+    <a href="/">Volver a la página principal</a>
+</body>
+
+</html>
